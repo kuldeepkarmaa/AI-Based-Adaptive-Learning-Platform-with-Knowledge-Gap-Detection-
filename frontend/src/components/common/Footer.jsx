@@ -1,10 +1,13 @@
+import banner from "../../assests/images/banner.png";
 export default function Footer() {
   return (
     <footer className="bg-surface border-t border-black/5 py-16">
       <div className="max-w-container-max mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
           <div className="col-span-2 lg:col-span-1 space-y-6">
-            <span className="text-headline-md font-bold text-primary">AdaptiveLearn</span>
+            <div className="col-span-2 lg:col-span-1 space-y-6 w-40">
+            <span className="text-headline-md font-bold text-primary  "><img src={banner} alt="Knowledge guru logo" /></span>
+            </div>
             <p className="text-label-md text-on-surface-variant">
               The future of personalized education, powered by next-generation artificial intelligence.
             </p>
@@ -62,7 +65,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-4 text-label-sm text-on-surface-variant">
-          <p>© {new Date().getFullYear()} AdaptiveLearn Inc. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Knowledge Guru Inc. All rights reserved.</p>
           <div className="flex gap-8">
             <a className="hover:text-primary transition-colors" href="#">Privacy Policy</a>
             <a className="hover:text-primary transition-colors" href="#">Terms of Service</a>
