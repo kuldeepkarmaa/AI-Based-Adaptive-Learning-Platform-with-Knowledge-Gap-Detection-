@@ -2,8 +2,9 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
-import Hero from "../assests/images/brain.png"
+import brain from "../assests/images/brain.jpg";
 export default function LandingPage() {
+  console.log(brain);
   const containerRef = useRef(null);
 
   // Reproduces the original IntersectionObserver scroll-in animation
@@ -55,8 +56,8 @@ export default function LandingPage() {
                 </div>
 
                 <h1 className="text-display-lg font-display-lg leading-tight lg:text-[64px]">
-                  Personalized Learning, <br />
-                  <span className="primary-gradient-text">Powered by AI</span>
+                  Knowledge Guru, <br />
+                  <span className="primary-gradient-text">Where Ambition Meets Mastery</span>
                 </h1>
 
                 {/* TEXT FIX: Added 'w-full min-w-[300px]' so words don't fall vertically */}
@@ -105,13 +106,13 @@ export default function LandingPage() {
               {/* RIGHT SIDE FIX: Added 'w-full mt-10 lg:mt-0' */}
               <div className="relative lg:h-[600px] flex items-center justify-center w-full mt-10 lg:mt-0">
                 {/* IMAGE FRAME FIX: Added 'aspect-square' to hold shape, prevents card overlap */}
-                <div className="glass-card p-4 rounded-3xl w-full max-w-lg relative z-10 aspect-square flex flex-col justify-center">
+                <div className="glass-card p-4 rounded-3xl  relative z-10 aspect-square flex flex-col justify-center">
                   
                   {/* Added 'w-full h-full object-cover' so image fills the square properly */}
                   <img
                     className="w-full h-full object-cover rounded-2xl"
                     alt="A 3D illustration of a glowing holographic brain being scanned by golden laser lines"
-                    src={Hero}
+                    src={brain} 
                   />
 
                   <div
@@ -243,7 +244,7 @@ export default function LandingPage() {
                 </h2>
                 <p className="text-body-lg text-on-surface-variant">
                   Don't just take our word for it. Thousands of professionals have accelerated their
-                  careers with AdaptiveLearn.
+                  careers with .
                 </p>
                 <div className="flex gap-4">
                   <button

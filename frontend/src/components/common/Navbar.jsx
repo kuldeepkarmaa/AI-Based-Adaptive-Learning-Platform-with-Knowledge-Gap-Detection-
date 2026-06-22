@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import banner from "../../assests/images/banner.png";
+
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -8,7 +10,7 @@ export default function Navbar() {
     <header className="sticky top-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-b border-black/5">
       <nav className="max-w-container-max mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <span className="text-headline-md font-bold text-primary">AdaptiveLearn</span>
+          <span className="text-headline-md font-bold text-primary w-50 "><img src={banner} alt="Knowledge guru logo" /></span>
         </div>
 
         <div className="hidden md:flex items-center gap-8">
