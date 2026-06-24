@@ -36,8 +36,8 @@ const ForgotPassword = () => {
         
         {/* Header Block */}
         <div className="text-center mb-6">
-          <div className="w-[45px] h-[45px] mx-auto text-white rounded-xl flex items-center justify-center text-[22px] text-on-primary shadow-lg hover:shadow-indigo-500/20 transition-all transform hover:-translate-y-1 active:scale-95">
-            <img src={front} alt="logo" />
+          <div className="w-[60px] h-[60px] mx-auto text-white rounded-xl flex items-center justify-center text-[22px] text-on-primary shadow-lg hover:shadow-indigo-500/20 transition-all transform hover:-translate-y-1 active:scale-95">
+            <img src={front} alt="logo" className="rounded-xl" />
           </div>
           <h2 className="mt-3 text-2xl font-semibold text-gray-800">Forgot Password?</h2>
           <p className="text-[13px] text-gray-500">Enter your email to reset password</p>

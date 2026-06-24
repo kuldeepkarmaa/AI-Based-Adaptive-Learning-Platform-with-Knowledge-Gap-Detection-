@@ -38,7 +38,7 @@ export default function LandingPage() {
       <main>
         {/* Hero Section */}
        {/* Hero Section */}
-        <section className="relative overflow-hidden pt-20 pb-32 lg:pt-32 lg:pb-48">
+        <section className="relative overflow-hidden pt-4 pb-32 lg:pt-4 lg:pb-20">
           <div className="blob-animation top-0 left-0 bg-primary" />
           <div className="blob-animation bottom-0 right-0 bg-secondary" style={{ animationDelay: "-5s" }} />
 
@@ -47,7 +47,7 @@ export default function LandingPage() {
               
               {/* LEFT SIDE: Added 'w-full' to prevent grid collapse */}
               <div className="space-y-8 w-full">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary-container/10 border border-primary/20 rounded-full text-primary font-label-sm text-label-sm">
+                <div className="inline-flex items-center gap-2 px-2 py-0 bg-primary-container/10 border border-primary/20 rounded-full text-primary font-label-sm text-label-sm">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
