@@ -13,7 +13,7 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import LandingPage from "../pages/LandingPage";
 
 // Student Pages
-import Dashboard from "../pages/student/Dashboard";
+import StudentDashboard from "../pages/student/Dashboard";
 import Courses from "../pages/student/Courses";
 import CourseDetails from "../pages/student/CourseDetails";
 import Quiz from "../pages/student/Quiz";
@@ -44,17 +44,8 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
 
-      {/* Student Routes */}
-      <Route
-        path="/student"
-        element={
-          <ProtectedRoute role="Student">
-            <StudentLayout />
-          </ProtectedRoute>
-        }
-      >
-        <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
+      <Route path="/student" element={<StudentLayout />}>
+        <Route path="dashboard" element={<StudentDashboard />} />
         <Route path="courses" element={<Courses />} />
         <Route path="courses/:id" element={<CourseDetails />} />
         <Route path="quiz/:id" element={<Quiz />} />
@@ -65,10 +56,6 @@ const AppRoutes = () => {
         <Route path="chatbot" element={<Chatbot />} />
         <Route path="profile" element={<Profile />} />
       </Route>
-
-      {/* Direct Student Dashboard Route */}
-      <Route path="/student/dashboard" element={<Dashboard />} />
-
       {/* Teacher Routes */}
       <Route path="/teacher" element={<TeacherLayout />}>
         <Route path="dashboard" element={<TeacherDashboard />} />
