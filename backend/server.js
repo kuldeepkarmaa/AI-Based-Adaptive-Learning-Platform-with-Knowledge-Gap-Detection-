@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db.js');
 const authRoutes = require('./routes/authRoutes'); // Imported Routes
+const studentRoutes = require('./routes/studentRoutes');
 
 // Load env variables
 dotenv.config();
@@ -15,6 +16,7 @@ const app = express();
 // Standard Production Middlewares
 app.use(cors());
 app.use(express.json());
+app.use('/api/student', studentRoutes);
 
 // Routes Integration
 app.use('/api/auth', authRoutes); // All endpoints will start with /api/auth
