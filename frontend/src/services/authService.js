@@ -7,6 +7,7 @@ const authService = {
     return response.data;
   },
 
+  getMe:    () => API.get("/auth/me").then(r => r.data.data),
   // Register Handler Method
   register: async (fullName, email, password, role) => {
     const response = await API.post('/auth/register', { fullName, email, password, role });
@@ -22,3 +23,5 @@ const authService = {
 };
 
 export default authService;
+
+
