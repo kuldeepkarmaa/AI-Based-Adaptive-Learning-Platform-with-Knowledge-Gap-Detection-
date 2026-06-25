@@ -194,16 +194,17 @@ export default function Chatbot() {
           {loading ? (
             <Loader fullScreen={false} text="Loading chat..." />
           ) : messages.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center max-w-sm mx-auto gap-5">
+            <div className="h-full flex flex-col items-center justify-center text-center w-full max-w-3xl mx-auto gap-5">
               <div className="w-16 h-16 primary-gradient rounded-2xl flex items-center justify-center">
                 <span className="material-symbols-outlined text-white text-3xl"
                   style={{ fontVariationSettings: '"FILL" 1' }}>smart_toy</span>
               </div>
               <div>
                 <p className="font-bold text-lg">Ask me anything!</p>
-                <p className="text-sm text-on-surface-variant mt-1">I'm your AI learning assistant. Ask about any topic, concept, or get help understanding difficult subjects.</p>
+                <p className=" text-sm text-on-surface-variant mt-1">I'm your AI learning assistant. Ask about any topic, concept, or get help understanding difficult subjects.</p>
+
               </div>
-              <div className="grid grid-cols-1 gap-2 w-full">
+              <div className="h-full flex flex-col items-center justify-center text-center w-full max-w-3xl mx-auto gap-5">
                 {STARTERS.map((s, i) => (
                   <button key={i} onClick={() => send(s)}
                     className="text-left px-4 py-3 bg-white border border-outline-variant rounded-xl text-xs text-on-surface-variant hover:border-primary/40 hover:bg-primary/5 transition-colors">

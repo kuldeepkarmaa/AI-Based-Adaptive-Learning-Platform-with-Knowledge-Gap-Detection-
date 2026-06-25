@@ -32,7 +32,7 @@ export default function Recommendations() {
             style={{ fontVariationSettings: '"FILL" 1' }}>auto_awesome</span>
         </div>
         <p className="font-semibold">No recommendations yet</p>
-        <p className="text-sm text-on-surface-variant max-w-sm mx-auto">
+        <p className="text-base text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
           Take a quiz first — our AI will analyze your performance and generate personalized learning recommendations.
         </p>
         <Link to="/student/courses"
