@@ -5,6 +5,7 @@ const connectDB = require('./config/db.js');
 const authRoutes = require('./routes/authRoutes'); // Imported Routes
 const studentRoutes = require('./routes/studentRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Load env variables
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/student', studentRoutes);
 app.use('/api/teacher', teacherRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Routes Integration
 app.use('/api/auth', authRoutes); // All endpoints will start with /api/auth
