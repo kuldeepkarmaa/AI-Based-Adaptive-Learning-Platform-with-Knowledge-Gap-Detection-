@@ -10,7 +10,10 @@ export default function DashboardNavbar({ title, onMenuClick }) {
   const navigate = useNavigate();
 
   // TODO: replace with logged-in teacher's avatar/name from AuthContext
-  const teacher = { name: "Teacher", avatarUrl: "" };
+  const teacher = {
+  name: localStorage.getItem("fullName") || "Teacher",
+  avatarUrl: "",
+  };
 
   return (
     <header className="h-16 bg-surface-container-lowest border-b border-black/5 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
@@ -22,8 +25,8 @@ export default function DashboardNavbar({ title, onMenuClick }) {
         >
           <Menu size={22} />
         </button>
-        <h1 className="text-headline-md font-bold text-on-surface truncate">
-          {title}
+        <h1 className="text-headline-md font-bold truncate bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            {title === "Teacher Dashboard" ? "Teacher Panel" : title}
         </h1>
       </div>
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const mongoose = require('mongoose');
 
 const QuestionSchema = new mongoose.Schema({
@@ -23,3 +24,42 @@ const QuizSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Quiz', QuizSchema);
+=======
+const mongoose = require("mongoose");
+
+const quizSchema = new mongoose.Schema(
+{
+    title:{
+        type:String,
+        required:true
+    },
+
+    description:String,
+
+    course:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Course"
+    },
+
+    teacher:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
+
+    questions:[
+        {
+            question:String,
+
+            options:[String],
+
+            answer:Number
+        }
+    ]
+},
+{
+    timestamps:true
+}
+);
+
+module.exports = mongoose.model("Quiz",quizSchema);
+>>>>>>> de49053eea9050c353fae4e8f281acfb2cd1bc7c

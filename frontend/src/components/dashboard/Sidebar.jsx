@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   BookOpen,
   Users,
+  ClipboardList,
   BarChart3,
   UserCircle,
   LogOut,
@@ -15,6 +16,7 @@ const NAV_ITEMS = [
   { label: "Dashboard", to: "/teacher/dashboard", icon: LayoutDashboard },
   { label: "Courses", to: "/teacher/courses", icon: BookOpen },
   { label: "Students", to: "/teacher/students", icon: Users },
+  { label: "Quiz", to: "/teacher/quiz", icon:ClipboardList},
   { label: "Analytics", to: "/teacher/analytics", icon: BarChart3 },
   { label: "Profile", to: "/teacher/profile", icon: UserCircle },
 ];
@@ -52,9 +54,7 @@ export default function Sidebar({ isOpen = false, onClose = () => {}, onLogout =
             <X size={22} />
           </button>
         </div>
-        <p className="px-6 text-label-sm text-on-surface-variant -mt-2 mb-4">
-          Teacher Panel
-        </p>
+       
 
         {/* Nav links */}
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto">

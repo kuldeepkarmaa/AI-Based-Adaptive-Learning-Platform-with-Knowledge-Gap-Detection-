@@ -1,6 +1,6 @@
 const Course = require('../models/Course');
-const Submission = require('../models/Submission'); 
-const Quiz = require('../models/Quiz');             
+const Submission = require('../models/Submission'); // <-- Ye model import karna report ke liye
+const Quiz = require('../models/Quiz');             // <-- Ye model import karna verification ke liye
 
 // @desc    Create a new course
 // @route   POST /api/teacher/courses
@@ -127,5 +127,5 @@ module.exports = {
   getTeacherCourses,
   updateCourse,
   deleteCourse,
-  getQuizPerformanceReport 
+  getQuizPerformanceReport // <-- Export this too!
 };

@@ -23,8 +23,14 @@ import Reports from "../pages/student/Reports";
 import Chatbot from "../pages/student/Chatbot";
 import Profile from "../pages/student/Profile";
 
-// Admin
+// Admin Pages
+import AdminLayout from "../components/layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/Dashboard";
+import AdminUsers from "../pages/admin/Users";
+import AdminCourses from "../pages/admin/Courses";
+import AdminAnalytics from "../pages/admin/Analytics";
+import AdminReports from "../pages/admin/Reports";
+import AdminSettings from "../pages/admin/Settings";
 
 // Teacher Pages
 import TeacherDashboard from "../pages/teacher/Dashboard";
@@ -34,6 +40,11 @@ import CreateQuiz from "../pages/teacher/CreateQuiz";
 import Students from "../pages/teacher/Students";
 import Analytics from "../pages/teacher/Analytics";
 import TeacherProfile from "../pages/teacher/Profile";
+import Notifications from "../pages/teacher/Notifications";
+import TeacherCourseDetails from "../pages/teacher/CourseDetails";
+import StudentDetails from "../pages/teacher/StudentDetails";
+import QuizPage from "../pages/teacher/Quiz";
+
 
 const AppRoutes = () => {
   return (
@@ -65,13 +76,26 @@ const AppRoutes = () => {
         <Route path="students" element={<Students />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="profile" element={<TeacherProfile />} />
+        <Route path="notifications" element={<Notifications/>}/>
+        <Route path="courses/:id" element={<TeacherCourseDetails />} />
+        <Route path="students/:id" element={<StudentDetails/>}/>
+        <Route path="quiz" element={<QuizPage/>}/>
       </Route>
 
       {/* Direct Teacher Dashboard Route */}
       <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
 
       {/* Admin Routes */}
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+     {/* Admin Routes */}
+      <Route path="/admin" element={<AdminLayout />}>
+         <Route index element={<AdminDashboard />} />
+         <Route path="dashboard" element={<AdminDashboard />} />
+         <Route path="users" element={<AdminUsers />} />
+         <Route path="courses" element={<AdminCourses />} />
+         <Route path="analytics" element={<AdminAnalytics />} />
+         <Route path="reports" element={<AdminReports />} />
+         <Route path="settings" element={<AdminSettings />} />
+</Route>
 
       {/* Fallback Route */}
       <Route path="*" element={<Navigate to="/" replace />} />
