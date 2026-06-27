@@ -1,0 +1,11 @@
+# env files (NEVER commit)
+backend/.env
+.env
+.env.*
+
+# dependencies
+node_modules/
+
+# logs
+logs
+*.log
