@@ -37,7 +37,7 @@ const Register = () => {
       // Saving secure session tokens in Local Storage [cite: 155]
       localStorage.setItem('token', data.token);
       localStorage.setItem('userRole', data.role);
-      localStorage.setItem('userName', data.fullName);
+      localStorage.setItem('fullName', data.fullName);
       
       // Redirecting dynamically based on verified database role [cite: 206]
       if (data.role === "Student") navigate("/student/dashboard");
@@ -45,7 +45,15 @@ const Register = () => {
       else if (data.role === "Admin") navigate("/admin/dashboard");
       
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed. Please try again.");
+      console.log(err);
+      console.log(err.response);
+      console.log(err.response?.data);
+
+      setError(
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+         "Registration failed."
+      );
     } finally {
       setIsLoading(false);
     }

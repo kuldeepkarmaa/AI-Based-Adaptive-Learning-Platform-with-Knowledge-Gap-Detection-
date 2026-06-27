@@ -19,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/student', studentRoutes);
 app.use('/api/teacher', teacherRoutes);
+app.use("/api/quiz",require("./routes/quizRoutes"));
 
 // Routes Integration
 app.use('/api/auth', authRoutes); // All endpoints will start with /api/auth

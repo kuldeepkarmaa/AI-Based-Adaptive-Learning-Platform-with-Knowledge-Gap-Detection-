@@ -1,3 +1,5 @@
+import {useEffect , useState} from 'react';
+import API from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import StatCard from "../../components/dashboard/StatCard";
 import ProgressChart from "../../components/dashboard/ProgressChart";
@@ -6,12 +8,6 @@ import Badge from "../../components/dashboard/Badge";
 
 // ---- TODO: replace with real data once backend endpoints are ready ----
 // e.g. const { data } = useFetch("/api/teacher/dashboard-summary")
-const STATS = [
-  { id: "courses", label: "Courses", value: "12", valueClassName: "text-primary", path: "/teacher/courses" },
-  { id: "students", label: "Students", value: "150", valueClassName: "text-green-600", path: "/teacher/students" },
-  { id: "quizzes", label: "Quizzes", value: "35", valueClassName: "text-red-500", path: "/teacher/quiz/create" },
-  { id: "completion", label: "Completion", value: "85%", valueClassName: "text-secondary", path: "/teacher/analytics" },
-];
 
 const PROGRESS_DATA = [
   { day: "Mon", value: 40 },
@@ -23,18 +19,86 @@ const PROGRESS_DATA = [
   { day: "Sun", value: 122 },
 ];
 
-// Shows only the first 3 on the dashboard — full list lives on /teacher/courses
-const RECENT_COURSES = [
-  { id: "c1", title: "Web Dev Bootcamp", progress: 78, color: "#4648d4", status: "Active" },
-  { id: "c2", title: "React Advanced Patterns", progress: 55, color: "#2563eb", status: "Active" },
-  { id: "c3", title: "Data Structures & Algo", progress: 30, color: "#d97706", status: "Draft" },
-];
+
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
+  const [stats, setStats] = useState({
+    totalCourses: 0,
+    totalStudents: 0,
+    totalQuizzes: 0,
+    completion: 0,
+  });
+
+  const [teacherName, setTeacherName] = useState("");
+  const [recentCourses, setRecentCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      try {
+        const { data } = await API.get("/teacher/dashboard");
+
+        setStats({
+          totalCourses: data.totalCourses,
+          totalStudents: data.totalStudents,
+          totalQuizzes: data.totalQuizzes,
+          completion: data.completion || 0,
+        });
+
+        // Logged in teacher name
+        setTeacherName(data.teacherName);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const fetchCourses = async () => {
+    try {
+      const res = await API.get("/teacher/courses");
+      setRecentCourses(res.data.data.slice(0, 3));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+    fetchDashboard();
+    fetchCourses();
+  }, []);
+
+  const STATS = [
+    {
+      id: "courses",
+      label: "Courses",
+      value: stats.totalCourses,
+      valueClassName: "text-primary",
+      path: "/teacher/courses",
+    },
+    {
+      id: "students",
+      label: "Students",
+      value: stats.totalStudents,
+      valueClassName: "text-green-600",
+      path: "/teacher/students",
+    },
+    {
+      id: "quizzes",
+      label: "Quizzes",
+      value: stats.totalQuizzes,
+      valueClassName: "text-red-500",
+      path: "/teacher/quiz/create",
+    },
+    {
+      id: "completion",
+      label: "Completion",
+      value: `${stats.completion}%`,
+      valueClassName: "text-secondary",
+      path: "/teacher/analytics",
+    },
+  ];
+
   // TODO: replace with teacher's real name from AuthContext
-  const teacherName = "Teacher";
+
 
   return (
     <div className="max-w-container-max mx-auto space-y-6">
@@ -91,22 +155,22 @@ export default function Dashboard() {
           </button>
         </div>
         <div className="space-y-3">
-          {RECENT_COURSES.map((course) => (
+          {recentCourses.map((course) => (
             <div
-              key={course.id}
+              key={course._id}
               className="flex items-center gap-3 py-2 border-b border-black/5 last:border-0"
             >
               <span className="text-label-md font-medium text-on-surface w-32 sm:w-40 flex-shrink-0 truncate">
                 {course.title}
               </span>
-              <ProgressBar value={course.progress} color={course.color} compact />
+              <ProgressBar value={100} color="#7c3aed" compact />
               <span
                 className="text-label-sm font-bold w-10 text-right flex-shrink-0"
-                style={{ color: course.color }}
+                style={{ color: "#7c3aed" }}
               >
-                {course.progress}%
+                100%
               </span>
-              <Badge status={course.status} />
+              <Badge status="Active" />
             </div>
           ))}
         </div>

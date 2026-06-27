@@ -34,6 +34,11 @@ import CreateQuiz from "../pages/teacher/CreateQuiz";
 import Students from "../pages/teacher/Students";
 import Analytics from "../pages/teacher/Analytics";
 import TeacherProfile from "../pages/teacher/Profile";
+import Notifications from "../pages/teacher/Notifications";
+import TeacherCourseDetails from "../pages/teacher/CourseDetails";
+import StudentDetails from "../pages/teacher/StudentDetails";
+import QuizPage from "../pages/teacher/Quiz";
+
 
 const AppRoutes = () => {
   return (
@@ -65,6 +70,10 @@ const AppRoutes = () => {
         <Route path="students" element={<Students />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="profile" element={<TeacherProfile />} />
+        <Route path="notifications" element={<Notifications/>}/>
+        <Route path="courses/:id" element={<TeacherCourseDetails />} />
+        <Route path="students/:id" element={<StudentDetails/>}/>
+        <Route path="quiz" element={<QuizPage/>}/>
       </Route>
 
       {/* Direct Teacher Dashboard Route */}

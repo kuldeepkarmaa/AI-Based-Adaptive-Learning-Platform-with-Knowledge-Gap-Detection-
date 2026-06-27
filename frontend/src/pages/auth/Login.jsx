@@ -30,7 +30,7 @@ const Login = () => {
       // Saving secure session tokens in Local Storage
       localStorage.setItem('token', data.token);
       localStorage.setItem('userRole', data.role);
-      localStorage.setItem('userName', data.fullName);
+      localStorage.setItem('fullName', data.fullName);
       
       // Redirecting dynamically based on verified database role
       if (data.role === "Student") navigate("/student/dashboard");

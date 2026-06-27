@@ -1,8 +1,38 @@
 const Course = require('../models/Course');
-
+//const Quiz= require("../models/Quiz");
+const User = require("../models/User");
 // @desc    Create a new course
 // @route   POST /api/teacher/courses
 // @access  Private (Teacher only)
+
+const getTeacherDashboard = async(req,res) =>{
+  try{
+    const totalCourses = await Course.countDocuments({
+      teacher: req.user._id
+    });
+    const totalStudents = await User.countDocuments({
+      role: "student"
+    });
+
+    // const totalQuizzes = await Quiz.countDocuments({
+    //   teacher: req.user._id
+    // });
+
+    res.json({
+      totalCourses,
+      totalStudents,
+      totalQuizzes:0,
+      completion: 85,
+      teacherName: req.user.fullName,
+    });
+
+  }
+  catch(error){
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
 const createCourse = async (req, res) => {
   try {
     const { title, description, category, level, modules } = req.body;
@@ -104,6 +134,163 @@ const deleteCourse = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server Error in deleting course', error: error.message });
   }
+
+};
+
+const getCourseById = async (req,res)=>{
+
+try{
+
+const course = await Course.findById(req.params.id);
+
+if(!course){
+
+return res.status(404).json({
+message:"Course not found"
+});
+
+}
+
+res.json(course);
+
+}
+catch(err){
+
+res.status(500).json({
+message:err.message
+});
+
+}
+
+};
+
+// GET /api/teacher/students
+const getTeacherStudents = async (req, res) => {
+  try {
+
+    // Abhi dummy data
+    const students = [
+      {
+        _id: "1",
+        fullName: "Rahul Sharma",
+        email: "rahul@gmail.com",
+        course: "React Development",
+        progress: 72,
+        marks: 86
+      }
+    ];
+
+    res.json({
+      success: true,
+      data: students
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success:false,
+      message:err.message
+    });
+  }
+};
+
+// GET /api/teacher/analytics
+
+const getTeacherAnalytics = async (req, res) => {
+  try {
+
+    res.status(200).json({
+      success: true,
+
+      summary: {
+        avgScore: 0,
+        completion: 0,
+        dropouts: 0,
+        certificates: 0,
+      },
+
+      courseScores: [],
+
+      weeklyStudents: []
+
+    });
+
+  } catch (err) {
+
+    res.status(500).json({
+      success: false,
+      message: err.message
+    });
+
+  }
+};
+
+// GET Profile
+
+const getTeacherProfile = async(req,res)=>{
+
+try{
+
+const teacher=await User.findById(req.user._id).select("-password");
+
+res.json({
+
+success:true,
+
+data:teacher
+
+});
+
+}
+
+catch(err){
+
+res.status(500).json({
+
+success:false,
+
+message:err.message
+
+});
+
+}
+
+};
+
+const updateTeacherProfile=async(req,res)=>{
+
+try{
+
+const teacher=await User.findById(req.user._id);
+
+teacher.designation=req.body.designation;
+
+teacher.subject=req.body.subject;
+
+teacher.bio=req.body.bio;
+
+await teacher.save();
+
+res.json({
+
+success:true,
+
+message:"Profile Updated"
+
+});
+
+}
+catch(err){
+
+res.status(500).json({
+
+success:false,
+
+message:err.message
+
+});
+
+}
+
 };
 
 
@@ -111,5 +298,11 @@ module.exports = {
   createCourse,
   getTeacherCourses,
   updateCourse, // <--- Add this
-  deleteCourse  // <--- Add this
+  deleteCourse ,
+  getTeacherDashboard, 
+  getCourseById,
+  getTeacherStudents,
+  getTeacherAnalytics,
+  getTeacherProfile,
+  updateTeacherProfile,// <--- Add this
 };

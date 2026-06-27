@@ -1,17 +1,41 @@
 import { useState } from "react";
+import API from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateCourse() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ title: "", description: "", lessons: "" });
+  const [form, setForm] = useState({ title: "", description: "", category: "", level: "",});
 
   const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // TODO: POST /api/teacher/courses
+  const handleSubmit = async (e) => {
+
+  e.preventDefault();
+
+  try {
+
+    const res = await API.post("/teacher/courses", {
+      title: form.title,
+      description: form.description,
+      category: form.category,
+      level: form.level,
+      modules: []
+    });
+
+    console.log(res.data);
+    alert("Course Created Successfully");
+
     navigate("/teacher/courses");
-  };
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert(err.response?.data?.message || err.message);
+
+  }
+
+};
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -45,19 +69,33 @@ export default function CreateCourse() {
         </div>
 
         <div>
-          <label className="block text-label-md font-label-md text-on-surface-variant mb-1.5">
-            Number of Lessons
-          </label>
-          <input
-            type="number"
-            name="lessons"
-            value={form.lessons}
-            onChange={handleChange}
-            placeholder="e.g. 12"
-            min="1"
-            className="w-full px-4 py-2.5 rounded-xl border border-outline-variant bg-surface text-body-md focus:outline-none focus:ring-2 focus:ring-primary"
-          />
+          <label>Category</label>
+             <input
+               name="category"
+               value={form.category}
+               onChange={handleChange}
+               className="w-full px-4 py-2.5 rounded-xl border"
+               required
+              />
         </div>
+
+        <div>
+           <label>Level</label>
+
+            <select
+              name="level"
+              value={form.level}
+              onChange={handleChange}
+              className="w-full px-4 py-2.5 rounded-xl border"
+              required
+            >
+            <option value="">Select Level</option>
+             <option value="Beginner">Beginner</option>
+             <option value="Intermediate">Intermediate</option>
+             <option value="Advanced">Advanced</option>
+            </select>
+        </div>
+
 
         <div className="flex gap-3 pt-2">
           <button

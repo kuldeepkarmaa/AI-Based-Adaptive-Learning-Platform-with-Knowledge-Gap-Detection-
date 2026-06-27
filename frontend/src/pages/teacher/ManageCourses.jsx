@@ -1,22 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import API from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { Plus, Search } from "lucide-react";
 import Badge from "../../components/dashboard/Badge";
 import ProgressBar from "../../components/dashboard/ProgressBar";
 
 // TODO: replace with GET /api/teacher/courses
-const COURSES = [
-  { id: "c1", title: "Web Dev Bootcamp", students: 42, status: "Active", progress: 78, color: "#7c3aed" },
-  { id: "c2", title: "React Advanced Patterns", students: 31, status: "Active", progress: 55, color: "#2563eb" },
-  { id: "c3", title: "Data Structures & Algo", students: 28, status: "Draft", progress: 30, color: "#d97706" },
-  { id: "c4", title: "UI/UX Design", students: 49, status: "Active", progress: 90, color: "#16a34a" },
-];
+
 
 export default function ManageCourses() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
-  const filtered = COURSES.filter((c) =>
+  const [courses, setCourses] = useState([]);
+
+useEffect(() => {
+
+  const fetchCourses = async () => {
+
+    try {
+
+      const res = await API.get("/teacher/courses");
+
+      setCourses(res.data.data);
+
+    } catch (err) {
+
+      console.log(err);
+
+    }
+
+  };
+
+  fetchCourses();
+
+}, []);
+
+  const filtered = courses.filter((c) =>
     c.title.toLowerCase().includes(query.toLowerCase())
   );
 
@@ -33,7 +53,7 @@ export default function ManageCourses() {
           />
         </div>
         <button
-          onClick={() => navigate("/teacher/courses/create")}
+          onClick={() => navigate("/teacher/courses/${course._id}")}
           className="bg-primary text-on-primary px-5 py-2.5 rounded-xl text-label-md font-label-md flex items-center gap-2 justify-center hover:bg-primary-container transition-colors"
         >
           <Plus size={18} />
@@ -44,8 +64,8 @@ export default function ManageCourses() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {filtered.map((course) => (
           <div
-            key={course.id}
-            onClick={() => navigate(`/teacher/courses/${course.id}`)}
+            key={course._id}
+            onClick={() => navigate(`/teacher/courses/${course._id}`)}
             className="bg-surface-container-lowest rounded-xl p-5 cursor-pointer hover:shadow-md transition-shadow space-y-3"
           >
             <div className="flex items-start justify-between gap-2">
@@ -53,9 +73,9 @@ export default function ManageCourses() {
                 <h3 className="text-body-md font-bold text-on-surface">{course.title}</h3>
                 <p className="text-label-sm text-on-surface-variant">{course.students} students</p>
               </div>
-              <Badge status={course.status} />
+              <Badge status="Active" />
             </div>
-            <ProgressBar value={course.progress} color={course.color} />
+            <ProgressBar value={100} color="#7c3aed" />
           </div>
         ))}
 

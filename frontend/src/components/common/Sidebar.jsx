@@ -33,7 +33,7 @@ const Sidebar = ({ open, setOpen }) => {
             <div className="flex items-center gap-2">
                       <span className="text-headline-md font-bold text-primary w-50 "><img src={banner} alt="Knowledge guru logo" /></span>
                     </div>
-            <p className="text-gray-400 text-sm">Teacher Panel</p>
+            
           </div>
 
           <button
