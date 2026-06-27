@@ -13,4 +13,6 @@ router.route('/courses/:id')
   .put(protect, updateCourse)   // For Update
   .delete(protect, deleteCourse); // For Delete
 
+  router.get('/quiz-reports/:quizId', protect, getQuizPerformanceReport);
+
 module.exports = router;
