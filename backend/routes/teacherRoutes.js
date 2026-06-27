@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-<<<<<<< Updated upstream
+
 const { 
   getTeacherDashboard, 
   getTeacherAnalytics, 
@@ -18,7 +18,7 @@ router.route('/courses')
   .post(protect, createCourse)
   .get(protect, getTeacherCourses);
 
-=======
+
 
 const {
   getTeacherDashboard,
@@ -70,5 +70,5 @@ router.get(
   getQuizPerformanceReport
 );
 
->>>>>>> Stashed changes
+
 module.exports = router;
