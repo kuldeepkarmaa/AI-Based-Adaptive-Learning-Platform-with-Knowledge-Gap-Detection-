@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 const mongoose = require('mongoose');
 
 const QuizSchema = new mongoose.Schema({
@@ -44,7 +44,7 @@ const QuizSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 module.exports = mongoose.model('Quiz', QuizSchema);
-=======
+
 const mongoose = require("mongoose");
 
 const QuestionSchema = new mongoose.Schema({
@@ -113,4 +113,4 @@ const QuizSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Quiz", QuizSchema);
->>>>>>> Stashed changes
+
