@@ -1,4 +1,6 @@
 const Course = require('../models/Course');
+const Submission = require('../models/Submission'); 
+const Quiz = require('../models/Quiz');             
 
 // @desc    Create a new course
 // @route   POST /api/teacher/courses
@@ -7,10 +9,9 @@ const createCourse = async (req, res) => {
   try {
     const { title, description, category, level, modules } = req.body;
 
-    // Security check: Sirf teacher role wale hi create kar payein
-   if (req.user.role.toLowerCase() !== 'teacher' && req.user.role.toLowerCase() !== 'admin') {
-  return res.status(403).json({ success: false, message: 'Not authorized as a teacher' });
-}
+    if (req.user.role.toLowerCase() !== 'teacher' && req.user.role.toLowerCase() !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Not authorized as a teacher' });
+    }
 
     const course = await Course.create({
       title,
@@ -18,14 +19,10 @@ const createCourse = async (req, res) => {
       category,
       level,
       modules,
-      teacher: req.user._id // Request user context se logged-in teacher ki id map hogi
+      teacher: req.user._id 
     });
 
-    res.status(201).json({
-      success: true,
-      message: 'Course created successfully',
-      data: course
-    });
+    res.status(201).json({ success: true, message: 'Course created successfully', data: course });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server Error in creating course', error: error.message });
   }
@@ -36,18 +33,13 @@ const createCourse = async (req, res) => {
 // @access  Private (Teacher only)
 const getTeacherCourses = async (req, res) => {
   try {
-   if (req.user.role.toLowerCase() !== 'teacher' && req.user.role.toLowerCase() !== 'admin') {
-  return res.status(403).json({ success: false, message: 'Not authorized as a teacher' });
-}
+    if (req.user.role.toLowerCase() !== 'teacher' && req.user.role.toLowerCase() !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Not authorized as a teacher' });
+    }
 
-    // Database query filtering via teacher context
     const courses = await Course.find({ teacher: req.user._id });
 
-    res.status(200).json({
-      success: true,
-      count: courses.length,
-      data: courses
-    });
+    res.status(200).json({ success: true, count: courses.length, data: courses });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server Error in fetching courses', error: error.message });
   }
@@ -64,12 +56,10 @@ const updateCourse = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Course not found' });
     }
 
-    // Security Check: Kya ye vahi teacher hai jisne course banaya tha?
     if (course.teacher.toString() !== req.user._id.toString() && req.user.role.toLowerCase() !== 'admin') {
       return res.status(401).json({ success: false, message: 'Not authorized to update this course' });
     }
 
-    // Database content update execution
     course = await Course.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true
@@ -92,12 +82,10 @@ const deleteCourse = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Course not found' });
     }
 
-    // Security Check: Same creator verification
     if (course.teacher.toString() !== req.user._id.toString() && req.user.role.toLowerCase() !== 'admin') {
       return res.status(401).json({ success: false, message: 'Not authorized to delete this course' });
     }
 
-    // Database document completely removal pipeline
     await Course.findByIdAndDelete(req.params.id);
 
     res.status(200).json({ success: true, message: 'Course removed successfully from cloud storage' });
@@ -106,10 +94,38 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+// 🔥 NEW FEATURE FOR TEACHER DASHBOARD ANALYTICS 🔥
+// @desc    Get student performance reports for a specific AI-generated quiz
+// @route   GET /api/teacher/quiz-reports/:quizId
+// @access  Private (Teacher/Admin)
+const getQuizPerformanceReport = async (req, res) => {
+  try {
+    const quiz = await Quiz.findById(req.params.quizId);
+    if (!quiz) {
+      return res.status(404).json({ success: false, message: 'Quiz not found.' });
+    }
+
+    // Fetch all student submissions for this specific AI-generated quiz
+    const submissions = await Submission.find({ quiz: req.params.quizId })
+      .populate('student', 'name email')
+      .sort({ score: -1 }); // Highest scoring student first
+
+    res.status(200).json({
+      success: true,
+      count: submissions.length,
+      quizTitle: quiz.title,
+      topic: quiz.topic,
+      data: submissions
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error pulling quiz reports.', error: error.message });
+  }
+};
 
 module.exports = {
   createCourse,
   getTeacherCourses,
-  updateCourse, // <--- Add this
-  deleteCourse  // <--- Add this
+  updateCourse,
+  deleteCourse,
+  getQuizPerformanceReport 
 };
