@@ -23,8 +23,14 @@ import Reports from "../pages/student/Reports";
 import Chatbot from "../pages/student/Chatbot";
 import Profile from "../pages/student/Profile";
 
-// Admin
+// Admin Pages
+import AdminLayout from "../components/layouts/AdminLayout";
 import AdminDashboard from "../pages/admin/Dashboard";
+import AdminUsers from "../pages/admin/Users";
+import AdminCourses from "../pages/admin/Courses";
+import AdminAnalytics from "../pages/admin/Analytics";
+import AdminReports from "../pages/admin/Reports";
+import AdminSettings from "../pages/admin/Settings";
 
 // Teacher Pages
 import TeacherDashboard from "../pages/teacher/Dashboard";
@@ -80,7 +86,16 @@ const AppRoutes = () => {
       <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
 
       {/* Admin Routes */}
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+     {/* Admin Routes */}
+      <Route path="/admin" element={<AdminLayout />}>
+         <Route index element={<AdminDashboard />} />
+         <Route path="dashboard" element={<AdminDashboard />} />
+         <Route path="users" element={<AdminUsers />} />
+         <Route path="courses" element={<AdminCourses />} />
+         <Route path="analytics" element={<AdminAnalytics />} />
+         <Route path="reports" element={<AdminReports />} />
+         <Route path="settings" element={<AdminSettings />} />
+</Route>
 
       {/* Fallback Route */}
       <Route path="*" element={<Navigate to="/" replace />} />
