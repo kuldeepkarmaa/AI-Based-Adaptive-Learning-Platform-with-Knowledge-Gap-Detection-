@@ -1,18 +1,9 @@
-const express=require("express");
+const express = require('express');
+const router = express.Router();
+const { protect } = require('../middleware/authMiddleware');
+const { generateAIQuiz } = require('../controllers/quizController');
 
-const router=express.Router();
+// Standard endpoint for baseline core generation pipeline
+router.post('/generate', protect, generateAIQuiz);
 
-const {protect}=require("../middleware/authMiddleware");
-
-const {
-
-createQuiz,
-getTeacherQuiz
-
-}=require("../controllers/quizController");
-
-router.post("/",protect,createQuiz);
-
-router.get("/",protect,getTeacherQuiz);
-
-module.exports=router;
+module.exports = router;

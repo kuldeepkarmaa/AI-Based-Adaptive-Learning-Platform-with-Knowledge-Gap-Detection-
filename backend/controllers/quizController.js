@@ -1,118 +1,67 @@
-<<<<<<< HEAD
 const Quiz = require('../models/Quiz');
-const Course = require('../models/Course');
+const ai = require('../config/geminiConfig');
 
-// @desc    Create a new quiz/test for a course
-// @route   POST /api/quiz/create
-// @access  Private (Teacher or Admin)
-const createQuiz = async (req, res) => {
+// @desc    Generate an advanced automated evaluation track using Gemini AI
+// @route   POST /api/quiz/generate
+// @access  Private
+const generateAIQuiz = async (req, res) => {
   try {
-    const { title, topic, courseId, questions } = req.body;
+    const { title, topic, courseId, difficulty, numberOfQuestions } = req.body;
 
-    // Security check: only Teacher or Admin
-    if (req.user.role.toLowerCase() !== 'teacher' && req.user.role.toLowerCase() !== 'admin') {
-      return res.status(403).json({ success: false, message: 'Not authorized to create quizzes' });
+    if (!topic || !courseId) {
+      return res.status(400).json({ success: false, message: 'Please provide a target topic and linked course context.' });
     }
 
-    // Verify if Course exist or not 
-    const courseExists = await Course.findById(courseId);
-    if (!courseExists) {
-      return res.status(404).json({ success: false, message: 'Associated course not found' });
+    const questionCount = numberOfQuestions || 3;
+    const targetDifficulty = difficulty || 'Advanced';
+
+    const prompt = `
+      You are an elite automated examination software engine.
+      The professor wants to generate an evaluation track under the specific topic scope heading: "${topic}".
+      Target difficulty level constraints: "${targetDifficulty}".
+      
+      Generate exactly ${questionCount} distinct multiple choice questions based on this.
+      Return ONLY a raw valid JSON array matching this strict schema structure without markdown wraps or code blocks:
+      [
+        {
+          "questionText": "Clear conceptual question string?",
+          "answerOptions": [
+            { "text": "Option A text content", "rationale": "Why option A is correct or incorrect" },
+            { "text": "Option B text content", "rationale": "Why option B is correct or incorrect" },
+            { "text": "Option C text content", "rationale": "Why option C is correct or incorrect" },
+            { "text": "Option D text content", "rationale": "Why option D is correct or incorrect" }
+          ],
+          "hint": "A strategic conceptual hint string.",
+          "difficulty": "${targetDifficulty}"
+        }
+      ]
+    `;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+    });
+
+    let parsedQuestions;
+    try {
+      parsedQuestions = JSON.parse(response.text.trim());
+    } catch (parseError) {
+      return res.status(500).json({ success: false, message: 'AI layout text structural anomaly. Try again.' });
     }
 
-    const quiz = await Quiz.create({
-      title,
+    const newQuiz = await Quiz.create({
+      title: title || `AI Evaluation: ${topic}`,
       topic,
       courseId,
       creator: req.user._id,
-      questions
+      questions: parsedQuestions
     });
 
-    res.status(201).json({
-      success: true,
-      message: 'Quiz generated and saved successfully',
-      data: quiz
-    });
+    res.status(201).json({ success: true, message: 'Dynamic AI track compiled!', data: newQuiz });
+
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Error creating quiz', error: error.message });
+    res.status(500).json({ success: false, message: 'Error triggering dynamic quiz compiler.', error: error.message });
   }
 };
 
-// @desc    Get all quizzes for a specific course
-// @route   GET /api/quiz/course/:courseId
-// @access  Private (All Users - Student/Teacher/Admin)
-const getQuizzesByCourse = async (req, res) => {
-  try {
-    const quizzes = await Quiz.find({ courseId: req.params.courseId }).select('-questions.answerOptions.isCorrect'); 
-    // Secure Practice: Student ko fetch karte waqt direct correct answers nahi dikhne chahiye!
-
-    res.status(200).json({
-      success: true,
-      count: quizzes.length,
-      data: quizzes
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Error fetching quizzes', error: error.message });
-  }
-};
-
-module.exports = {
-  createQuiz,
-  getQuizzesByCourse
-=======
-const Quiz=require("../models/Quiz");
-
-exports.createQuiz=async(req,res)=>{
-
-try{
-
-const quiz=await Quiz.create({
-
-title:req.body.title,
-description:req.body.description,
-course:req.body.course,
-questions:req.body.questions,
-teacher:req.user._id
-
-});
-
-res.status(201).json({
-success:true,
-data:quiz
-});
-
-}catch(err){
-
-res.status(500).json({
-success:false,
-message:err.message
-});
-
-}
-
-};
-
-exports.getTeacherQuiz=async(req,res)=>{
-
-try{
-
-const quiz=await Quiz.find({
-teacher:req.user._id
-}).populate("course");
-
-res.json({
-success:true,
-data:quiz
-});
-
-}catch(err){
-
-res.status(500).json({
-success:false,
-message:err.message
-});
-
-}
-
->>>>>>> de49053eea9050c353fae4e8f281acfb2cd1bc7c
-};
+module.exports = { generateAIQuiz };

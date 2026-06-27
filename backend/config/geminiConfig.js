@@ -1,7 +1,8 @@
 const { GoogleGenAI } = require('@google/genai');
+require('dotenv').config(); // <-- Yeh line yahan confirm honi chahiye taaki key pehle load ho sake
 
-// 1. Initialize the instance here once using your .env key
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({ 
+  apiKey: process.env.GEMINI_API_KEY 
+});
 
-// 2. Export the ready-to-use 'ai' instance directly
 module.exports = ai;
