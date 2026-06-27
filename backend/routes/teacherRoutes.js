@@ -20,5 +20,9 @@ router.route('/courses/:id')
   .put(protect, updateCourse)   // For Update
   .delete(protect, deleteCourse); // For Delete
 
+<<<<<<< HEAD
+  router.get('/quiz-reports/:quizId', protect, getQuizPerformanceReport);
+=======
+>>>>>>> de49053eea9050c353fae4e8f281acfb2cd1bc7c
 
 module.exports = router;
