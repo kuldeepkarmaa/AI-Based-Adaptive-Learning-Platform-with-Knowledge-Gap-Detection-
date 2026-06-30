@@ -5,8 +5,9 @@ const {
   getTeacherDashboard, 
   getTeacherAnalytics, 
   createCourse, 
-  getTeacherCourses 
+  getTeacherCourses,
 } = require('../controllers/teacherController');
+
 const { protect } = require('../middleware/authMiddleware');
 
 // Mount Dashboard and Visual Chart analytics channels
@@ -21,23 +22,15 @@ router.route('/courses')
 
 
 const {
-  getTeacherDashboard,
-  createCourse,
-  getTeacherCourses,
   getCourseById,
   updateCourse,
   deleteCourse,
   getTeacherStudents,
-  getTeacherAnalytics,
   getTeacherProfile,
   updateTeacherProfile,
   getQuizPerformanceReport
 } = require("../controllers/teacherController");
 
-const { protect } = require("../middleware/authMiddleware");
-
-// Dashboard
-router.get("/dashboard", protect, getTeacherDashboard);
 
 // Courses
 router
