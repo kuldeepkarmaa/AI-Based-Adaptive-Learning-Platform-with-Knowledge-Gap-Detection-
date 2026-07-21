@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService"; // 
 import front from "../../assests/images/front.png"; // Fixed assets spelling
 import AuthLayout from "./AuthLayout";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -44,6 +45,32 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+  // 🌐 Google SSO Success Handler
+const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    setIsLoading(true);
+    setError("");
+
+    // Backend ko Google ID Token bhej rahe hain
+    const res = await authService.googleLogin(credentialResponse.credential, role);
+    const data = res.data;
+
+    // LocalStorage & Redirection
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('userRole', data.user.role);
+    localStorage.setItem('fullName', data.user.name);
+
+    const userRole = data.user.role.toLowerCase();
+    if (userRole === "student") navigate("/student/dashboard");
+    else if (userRole === "teacher") navigate("/teacher/dashboard");
+    else if (userRole === "admin") navigate("/admin/dashboard");
+
+  } catch (err) {
+    setError(err.response?.data?.message || "Google Authentication Failed.");
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     
@@ -182,12 +209,13 @@ const Login = () => {
 
     </div>
 
-    {/* Google */}
-    <button
-      className="flex w-full items-center justify-center rounded-xl border border-gray-300 py-3 font-medium transition hover:bg-gray-50"
-    >
-      🌐 Continue with Google
-    </button>
+  {/* Google SSO Button */}
+<div className="flex justify-center w-full">
+  <GoogleLogin
+    onSuccess={handleGoogleSuccess}
+    onError={() => setError("Google Login Cancelled or Failed.")}
+  />
+</div>
 
     {/* Bottom */}
     <div className="mt-8 text-center text-sm text-gray-600">

@@ -1,6 +1,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Helper function to generate JWT Token
 const generateToken = (id) => {
@@ -119,5 +123,63 @@ exports.loginUser = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: 'Server Error', error: error.message });
+  }
+};
+
+// @desc    Authenticate/Register user via Google OAuth 2.0
+// @route   POST /api/auth/google
+// @access  Public
+exports.googleLogin = async (req, res) => {
+  try {
+    const { idToken, role } = req.body;
+
+    if (!idToken) {
+      return res.status(400).json({ message: 'Google ID token is required' });
+    }
+
+    // 1. Verify Google ID Token
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { name, email, picture } = payload;
+
+    // 2. Check if user exists in database
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      const randomPassword = Math.random().toString(36).slice(-10);
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(randomPassword, salt);
+
+      user = await User.create({
+        fullName: name,
+        email,
+        password: hashedPassword,
+        role: role || 'Student',
+        avatar: picture
+      });
+    }
+
+    // 3. Response Structure
+    res.status(200).json({
+      success: true,
+      data: {
+        token: generateToken(user._id),
+        user: {
+          _id: user._id,
+          name: user.fullName,
+          email: user.email,
+          role: user.role,
+          avatar: user.avatar
+        }
+      }
+    });
+
+  } catch (error) {
+    console.error('Google SSO Controller Error:', error);
+    res.status(500).json({ message: 'Google Authentication failed', error: error.message });
   }
 };
