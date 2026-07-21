@@ -13,6 +13,11 @@ const authService = {
     const response = await API.post('/auth/register', { fullName, email, password, role });
     return response.data;
   },
+  // Google SSO Login Service
+googleLogin: async (idToken, role) => {
+  const response = await API.post('/auth/google', { idToken, role });
+  return response.data;
+},
 
   // Logout Handler Method
   logout: () => {
