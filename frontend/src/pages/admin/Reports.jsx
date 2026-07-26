@@ -42,7 +42,7 @@ export default function AdminReports() {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center justify-between flex-wrap gap-2"
       >
-        <h1 className="text-2xl font-bold text-on-surface">System Reports</h1>
+        <h1 className="text-2xl font-bold text-primary">System Reports</h1>
         <span className="text-xs text-on-surface-variant">
           Generated {new Date(reports.generatedAt).toLocaleString()}
         </span>
@@ -75,3 +75,4 @@ export default function AdminReports() {
     </div>
   );
 }
+

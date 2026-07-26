@@ -1,6 +1,4 @@
-// ============================================================
 // src/pages/admin/Users.jsx
-// ============================================================
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search, MoreVertical } from "lucide-react";
@@ -71,7 +69,7 @@ export default function AdminUsers() {
   return (
     <div className="p-3 md:p-4 max-w-7xl mx-auto space-y-5">
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-on-surface">Users</h1>
+        <h1 className="text-2xl font-bold text-primary">Users</h1>
         <span className="text-xs text-on-surface-variant">{filtered.length} total</span>
       </motion.div>
 
@@ -81,14 +79,14 @@ export default function AdminUsers() {
         </div>
       )}
 
-      <div className="relative max-w-sm">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
+      <div className="relative max-w-md">
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-on-surface-variant pointer-events-none z-10" />
         <input
           type="text"
           placeholder="Search by name or email…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-10 pr-4 py-2.5 bg-surface-container border border-outline-variant rounded-xl text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+          className="w-full pl-11 pr-4 py-3 !bg-white !text-gray-900 placeholder-gray-400 caret-gray-900 border border-outline-variant rounded-xl text-base focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
         />
       </div>
 
@@ -148,4 +146,3 @@ export default function AdminUsers() {
     </div>
   );
 }
-

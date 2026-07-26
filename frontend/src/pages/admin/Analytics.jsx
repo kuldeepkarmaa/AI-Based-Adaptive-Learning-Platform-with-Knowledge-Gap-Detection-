@@ -1,3 +1,4 @@
+// ============================================================
 // src/pages/admin/Analytics.jsx
 // ============================================================
 import { useState, useEffect } from "react";
@@ -35,7 +36,7 @@ export default function AdminAnalytics() {
 
   return (
     <div className="p-3 md:p-4 max-w-6xl mx-auto space-y-5">
-      <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="text-2xl font-bold text-on-surface">
+      <motion.h1 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="text-2xl font-bold text-primary">
         Analytics
       </motion.h1>
 
@@ -97,4 +98,3 @@ export default function AdminAnalytics() {
     </div>
   );
 }
-

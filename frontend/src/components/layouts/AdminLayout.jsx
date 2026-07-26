@@ -33,8 +33,8 @@ const NAV_ITEMS = [
 
 // Maps path → navbar title (same pattern as TeacherLayout)
 const PAGE_TITLES = {
-  "/admin":           "Admin Dashboard",
-  "/admin/dashboard": "Admin Dashboard",
+  "/admin":           "Admin Panel",
+  "/admin/dashboard": "Admin Panel",
   "/admin/users":     "Users",
   "/admin/courses":   "Courses",
   "/admin/analytics": "Analytics",
@@ -131,13 +131,12 @@ function AdminNavbar({ title, onMenuClick }) {
         >
           <Menu size={22} />
         </button>
-        <h1 className="font-bold truncate text-lg text-on-surface">
+        <h1 className="font-bold truncate text-lg text-primary">
           {title}
         </h1>
       </div>
 
       <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-        
         <button
           onClick={() => navigate("/admin/settings")}
           className="w-9 h-9 rounded-full primary-gradient text-white flex items-center justify-center font-bold text-sm shadow-lg shadow-primary/20"
@@ -158,7 +157,7 @@ export default function AdminLayout() {
   const navigate  = useNavigate();
   const location  = useLocation();
 
-  const title = PAGE_TITLES[location.pathname] || "Admin Dashboard";
+  const title = PAGE_TITLES[location.pathname] || "Admin Panel";
 
   const handleLogout = () => {
     localStorage.removeItem("token");

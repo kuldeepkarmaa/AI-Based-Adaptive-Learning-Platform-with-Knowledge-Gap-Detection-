@@ -94,13 +94,13 @@ export default function Dashboard() {
           <div className="flex gap-2 flex-wrap mt-4">
             <button
               onClick={() => navigate("/admin/users")}
-              className="bg-white/15 border border-white/30 text-white rounded-xl px-4 py-2 text-xs font-bold hover:bg-white/25 transition-colors backdrop-blur-sm"
+              className="bg-white/15 border border-white/30 text-white rounded-xl px-4 py-2 text-xs font-bold hover:bg-white/25 hover:-translate-y-0.5 transition-all backdrop-blur-sm"
             >
               Manage Users
             </button>
             <button
               onClick={() => navigate("/admin/analytics")}
-              className="bg-white/15 border border-white/30 text-white rounded-xl px-4 py-2 text-xs font-bold hover:bg-white/25 transition-colors backdrop-blur-sm"
+              className="bg-white/15 border border-white/30 text-white rounded-xl px-4 py-2 text-xs font-bold hover:bg-white/25 hover:-translate-y-0.5 transition-all backdrop-blur-sm"
             >
               View Analytics
             </button>

@@ -31,7 +31,7 @@ export default function AdminCourses() {
   return (
     <div className="p-3 md:p-4 max-w-6xl mx-auto space-y-5">
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-on-surface">Courses</h1>
+        <h1 className="text-2xl font-bold text-primary">Courses</h1>
         <span className="text-xs text-on-surface-variant">{courses.length} total</span>
       </motion.div>
 

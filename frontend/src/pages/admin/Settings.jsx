@@ -80,9 +80,8 @@ export default function AdminSettings() {
 
   return (
     <div className="p-3 md:p-4 max-w-5xl mx-auto space-y-5">
-
-      {/* Save button */}
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <h1 className="text-2xl font-bold text-primary">Settings</h1>
         <button
           onClick={handleSave}
           className={`flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold transition-all shadow-lg
@@ -153,3 +152,4 @@ export default function AdminSettings() {
     </div>
   );
 }
+
